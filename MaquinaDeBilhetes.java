@@ -21,35 +21,36 @@ public class MaquinaDeBilhetes {
 
 
     double InserirSaldo(double x){
-        this.saldo = saldo + x;
+        saldo = saldo + x;
+        System.out.println("Dinheiro adicionado!!!");
+        System.out.println("---------------------------------------------------------------");
+        verificarPreco();
         return saldo;
     }    
 
-    boolean verificarPreco(){
-        if (this.saldo >= this.PrecoDoBilhete){
-            return true;
+    void verificarPreco(){
+        if (saldo >= PrecoDoBilhete){
+            while(saldo >= PrecoDoBilhete)
+                GerarBilhete();
+        }else{
+            System.out.println("Saldo Insuficiente para comprar o bilhete, adicione mas saldo!!");
+            System.out.println("---------------------------------------------------------------");
         }
-        return false;
     }
 
-    void GerarBilhete(){
-        if (verificarPreco() == true){
-            this.saldo = saldo - PrecoDoBilhete;
-            this.BilhetesVendidos ++;
-            System.out.println("Bilhete Gerado!!!");
-    }
-        
-    }
-
-    void SaldoDisponivel(){
-        System.out.printf("Saldo Disponível: %.2f", this.saldo);
-        System.out.print("");
-        System.out.printf("Bilhetes Vendidos: %.2f", this.BilhetesVendidos);
+    void GerarBilhete(){    
+        saldo = saldo - PrecoDoBilhete;
+        BilhetesVendidos ++;
+        System.out.println("Bilhete Gerado!!!");
+        System.out.println("---------------------------------------------------------------");      
     }
 
     void ZerarMaquina(){
-            this.saldo = 0;
-            this.BilhetesVendidos = 0;
+            saldo = 0;
+            BilhetesVendidos = 0;
+            System.out.println("---------------------------------------------------------------");
+            System.out.println("Máquina resetada!!!");
+            System.out.println("---------------------------------------------------------------");
     }
 
     public static void main(String[] args) {
@@ -66,22 +67,37 @@ public class MaquinaDeBilhetes {
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
-
-            switch ((opcao)) {
+            // break em cada case para evitar o fall-through(cada opçao do case será usada).
+            switch (opcao) {
                 case 1:
                     System.out.print("Digite o valor a ser inserido: ");
                     double valor = scanner.nextDouble();
                     teste.InserirSaldo(valor);
+                    break;
                 case 2:
-                    teste.VerSaldo();
+                    System.out.println("---------------------------------------------------------------");
+                    System.out.println("Voçe tem de saldo: " + teste.VerSaldo());
+                    System.out.println("---------------------------------------------------------------");
+                    break;
                 case 3:
-                    teste.VerBilhetes();
+                    System.out.println("---------------------------------------------------------------");
+                    System.out.println("Total de bilhetes vendidos: " + teste.VerBilhetes());
+                    System.out.println("---------------------------------------------------------------");
+                    break;
                 case 4:
                     teste.ZerarMaquina();
+                    break;
                 case 5:
+                    System.out.println("Saindo.......");
+                    // o scanner.close() fecha o fluxo de entrada, nada mais pode ser lido pelo scanner, fazendo com que o loop while termine ou até mesmo o programa.
+                    scanner.close();
                     break;
                 default:
+                    System.out.println("---------------------------------------------------------------");
                     System.out.println("Opção Inválida");
+                    System.out.println("Tente novamente:!!!");
+                    System.out.println("---------------------------------------------------------------");
+                    break;
             }
         }
 
